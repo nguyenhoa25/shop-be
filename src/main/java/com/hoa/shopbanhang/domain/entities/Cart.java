@@ -16,15 +16,15 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = TableNameConstant.TBL_ROLE)
-public class Role extends AbstractAuditingEntity {
+@Table(name = TableNameConstant.TBL_CART)
+public class Cart extends AbstractAuditingEntity {
 
-  private String name;
+  @OneToOne
+  @JoinColumn(name = "user_id")
+  private User user;
 
-  private String description;
-
-  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "role")
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "cart")
   @JsonIgnore
-  private List<User> user;
+  private List<ItemDetail> itemDetails;
 
 }

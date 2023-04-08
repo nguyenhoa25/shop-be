@@ -7,24 +7,27 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Nationalized;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Setter
 @Getter
-@AllArgsConstructor
+@Setter
 @NoArgsConstructor
-@Table(name = TableNameConstant.TBL_ROLE)
-public class Role extends AbstractAuditingEntity {
+@AllArgsConstructor
+@Table(name = TableNameConstant.TBL_CATEGORY)
+public class Category extends AbstractAuditingEntity {
 
+  @Nationalized
   private String name;
+
+  private String slug;
 
   private String description;
 
-  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "role")
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "category")
   @JsonIgnore
-  private List<User> user;
-
+  private List<Product> products;
 }

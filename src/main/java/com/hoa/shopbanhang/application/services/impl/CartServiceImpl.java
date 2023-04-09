@@ -20,8 +20,7 @@ public class CartServiceImpl implements ICartService {
   private final ICartRepository cartRepository;
   private final IUserRepository userRepository;
 
-  public CartServiceImpl(ICartRepository cartRepository,
-                         IUserRepository userRepository) {
+  public CartServiceImpl(ICartRepository cartRepository, IUserRepository userRepository) {
     this.cartRepository = cartRepository;
     this.userRepository = userRepository;
   }
@@ -64,8 +63,7 @@ public class CartServiceImpl implements ICartService {
     Optional<Cart> cart = cartRepository.findById(id);
     checkCartExists(cart);
 
-    cart.get().setDeleteFlag(true);
-    cartRepository.save(cart.get());
+    cartRepository.delete(cart.get());
 
     return new RequestResponse(CommonConstant.TRUE, CommonConstant.EMPTY_STRING);
   }

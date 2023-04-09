@@ -60,14 +60,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity http) throws Exception {
     http.cors().configurationSource(request -> corsConfiguration())
         .and().csrf().disable()
-        .exceptionHandling().authenticationEntryPoint(unauthorizedHandler)  // handle các lỗi xác thực
-        .and()
-        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        .and()
+//        .exceptionHandling().authenticationEntryPoint(unauthorizedHandler)  // handle các lỗi xác thực
         .authorizeRequests()
-        .antMatchers(COMMON_LIST_URLS).permitAll()
-
-        .anyRequest().authenticated();
+        .anyRequest().permitAll()
+        .and()
+        .sessionManagement()
+        .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+//        .antMatchers(COMMON_LIST_URLS).permitAll()
+//        .antMatchers(STUDENT_LIST_URLS).hasAnyAuthority("ROLE_STUDENT")
+//        .antMatchers(ADMIN_LIST_URLS).hasAnyAuthority("ROLE_ADMIN")
+//        .anyRequest().authenticated();
 //        http.addFilter(new CustomAuthenticationFilter(authenticationManagerBean()));
     http.addFilterBefore(customAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
   }

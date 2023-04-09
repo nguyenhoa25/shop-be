@@ -4,13 +4,15 @@ public class MessageConstant {
   public static final String CART_NOT_EXISTS = "Account not exists";
   public static final String CATEGORY_NOT_EXISTS = "Category not exists";
   public static final String ITEM_DETAIL_NOT_EXISTS = "Item detail not exists";
-  public static final String MEDIA_NOT_EXISTS = "Media not exists";
   public static final String NOTIFICATION_NOT_EXISTS = "Notification not exists";
   public static final String ORDER_NOT_EXISTS = "Order not exists";
   public static final String PRODUCT_NOT_EXISTS = "Product not exists";
   public static final String USER_NOT_EXISTS = "User not exists";
-  public static final String STATISTIC_NOT_EXISTS = "Product not exists";
+  public static final String STATISTIC_NOT_EXISTS = "Statistic not exists";
+  public static final String RATE_NOT_EXISTS = "Rate not exists";
   public static final String PRODUCT_OUT_OF_STOCK = "Product is out of stock";
+  public static final String CANNOT_CANCEL_ORDER = "Can't cancel order";
+
   public static final String ROLE_NOT_EXISTS = "Role not exists";
 
   public static final String NOT_ACCESS = "You do not have permission";

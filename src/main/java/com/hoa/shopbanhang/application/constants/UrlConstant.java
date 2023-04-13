@@ -99,4 +99,16 @@ public class UrlConstant {
     public static final String UPDATE = PREFIX;
     public static final String DELETE = PREFIX + "/{id}";
   }
+
+  public static class Rate {
+    private Rate() {
+    }
+
+    private static final String PRE_FIX = "/rates";
+    public static final String LIST = PRE_FIX;
+    public static final String CREATE = PRE_FIX;
+    public static final String GET = PRE_FIX + "/{id}";
+    public static final String UPDATE = PRE_FIX;
+    public static final String DELETE = PRE_FIX + "/{id}";
+  }
 }

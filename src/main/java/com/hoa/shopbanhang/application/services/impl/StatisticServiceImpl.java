@@ -6,14 +6,10 @@ import com.hoa.shopbanhang.application.constants.MessageConstant;
 import com.hoa.shopbanhang.application.inputs.statistic.AdminStatisticInput;
 import com.hoa.shopbanhang.application.inputs.statistic.CreateStatisticInput;
 import com.hoa.shopbanhang.application.outputs.AdminStatisticOutput;
-import com.hoa.shopbanhang.application.repositories.IProductRepository;
 import com.hoa.shopbanhang.application.repositories.IStatisticRepository;
-import com.hoa.shopbanhang.application.repositories.IUserRepository;
 import com.hoa.shopbanhang.application.services.IStatisticService;
 import com.hoa.shopbanhang.configs.exceptions.VsException;
-import com.hoa.shopbanhang.domain.entities.Product;
 import com.hoa.shopbanhang.domain.entities.Statistic;
-import com.hoa.shopbanhang.domain.entities.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,20 +18,20 @@ import java.util.Optional;
 @Service
 public class StatisticServiceImpl implements IStatisticService {
   private final IStatisticRepository statisticRepository;
-  private final IUserRepository userRepository;
-  private final IProductRepository productRepository;
 
-  public StatisticServiceImpl(IStatisticRepository statisticRepository, IUserRepository userRepository,
-                              IProductRepository productRepository) {
+  public StatisticServiceImpl(IStatisticRepository statisticRepository) {
     this.statisticRepository = statisticRepository;
-    this.userRepository = userRepository;
-    this.productRepository = productRepository;
   }
 
   @Override
-  public List<AdminStatisticOutput> getAll(AdminStatisticInput input) {
+  public List<AdminStatisticOutput> getStatistic(AdminStatisticInput input) {
     List<AdminStatisticOutput> adminStatisticOutputs = statisticRepository.adminStatistic(input);
     return adminStatisticOutputs;
+  }
+
+  @Override
+  public List<Statistic> getAll() {
+    return statisticRepository.findAll();
   }
 
   @Override
@@ -50,10 +46,8 @@ public class StatisticServiceImpl implements IStatisticService {
   public Statistic createStatistic(CreateStatisticInput createStatisticInput) {
     Statistic statistic = new Statistic();
     statistic.setAgeOfUser(createStatisticInput.getAgeOfUser());
-    Optional<User> user = userRepository.findById(createStatisticInput.getIdUser());
-    statistic.setUser(user.get());
-    Optional<Product> product = productRepository.findById(createStatisticInput.getIdProduct());
-    statistic.setProduct(product.get());
+    statistic.setUser(createStatisticInput.getUser());
+    statistic.setProduct(createStatisticInput.getProduct());
 
     return statisticRepository.save(statistic);
   }

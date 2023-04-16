@@ -111,4 +111,17 @@ public class UrlConstant {
     public static final String UPDATE = PRE_FIX;
     public static final String DELETE = PRE_FIX + "/{id}";
   }
+
+  public static class Statistic {
+    private Statistic() {
+    }
+
+    private static final String PREFIX = "/statistics";
+    public static final String VIEW = PREFIX + "/view";
+    public static final String LIST = PREFIX;
+    public static final String CREATE = PREFIX;
+    public static final String GET = PREFIX + "/{id}";
+    public static final String DELETE = PREFIX + "/{id}";
+  }
+
 }

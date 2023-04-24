@@ -2,14 +2,16 @@ package com.hoa.shopbanhang.adapter.web.v1.controller;
 
 import com.hoa.shopbanhang.adapter.web.base.RestApiV1;
 import com.hoa.shopbanhang.adapter.web.base.VsResponseUtil;
-import com.hoa.shopbanhang.adapter.web.v1.transfer.parameter.auth.AuthenticationRequest;
 import com.hoa.shopbanhang.application.constants.UrlConstant;
+import com.hoa.shopbanhang.application.inputs.auth.AuthenticationRequest;
+import com.hoa.shopbanhang.application.inputs.auth.UpdatePasswordInput;
 import com.hoa.shopbanhang.application.inputs.user.CreateUserInput;
 import com.hoa.shopbanhang.application.services.IAuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -43,11 +45,16 @@ public class AuthController {
         return ResponseEntity.ok().body(authService.refreshToken(request, response));
     }
 
-    private String applicationUrl(HttpServletRequest request) {
-        return "https://" +
-                request.getServerName() +
-                ":" +
-                request.getServerPort() +
-                request.getContextPath();
+    @Operation(summary = "Reset Password")
+    @PostMapping(UrlConstant.Auth.RESET_PASSWORD)
+    public ResponseEntity<?> resetPassword(@RequestParam("email") String email) {
+        return VsResponseUtil.ok(authService.resetPassword(email));
     }
+
+    @Operation(summary = "Update Password")
+    @PostMapping(UrlConstant.Auth.UPDATE_PASSWORD)
+    public ResponseEntity<?> updatePassword(@Valid @RequestBody UpdatePasswordInput input) {
+        return VsResponseUtil.ok(authService.updatePassword(input));
+    }
+
 }

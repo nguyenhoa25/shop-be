@@ -34,6 +34,13 @@ public class CartController {
     return VsResponseUtil.ok(cartService.getCartById(idCart));
   }
 
+  @Operation(summary = "Get Cart By User - ADMIN, USER")
+  @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+  @GetMapping(UrlConstant.Cart.USER_CART)
+  public ResponseEntity<?> getCartByUser(@PathVariable(name = "idUser") Long idUser) {
+    return VsResponseUtil.ok(cartService.getCartByIdUser(idUser));
+  }
+
   @Operation(summary = "Create Cart")
   @PostMapping(UrlConstant.Cart.CREATE)
   public ResponseEntity<?> createCart(@PathVariable("idUser") Long idUser) {
@@ -47,15 +54,9 @@ public class CartController {
     return VsResponseUtil.ok(cartService.deleteById(idCart));
   }
 
-  @Operation(summary = "Get Cart By User - ADMIN, USER")
-  @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-  @GetMapping(UrlConstant.Cart.USER_CART)
-  public ResponseEntity<?> getCartByUser(@PathVariable(name = "idUser") Long idUser) {
-    return VsResponseUtil.ok(cartService.getCartByIdUser(idUser));
-  }
 
   @Operation(summary = "Add Product To Cart - ADMIN, USER")
-  @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+//  @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
   @PostMapping(UrlConstant.Cart.ADD_PRODUCT_TO_CART)
   public ResponseEntity<?> addProductToCartById(@PathVariable(name = "idCart") Long idCart,
                                          @PathVariable(name = "idProduct") Long idProduct,

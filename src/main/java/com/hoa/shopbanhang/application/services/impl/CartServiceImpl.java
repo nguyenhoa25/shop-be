@@ -3,10 +3,9 @@ package com.hoa.shopbanhang.application.services.impl;
 import com.hoa.shopbanhang.adapter.web.v1.transfer.response.RequestResponse;
 import com.hoa.shopbanhang.application.constants.CommonConstant;
 import com.hoa.shopbanhang.application.constants.MessageConstant;
-import com.hoa.shopbanhang.application.outputs.CartDetailOutput;
 import com.hoa.shopbanhang.application.repositories.ICartRepository;
 import com.hoa.shopbanhang.application.repositories.IUserRepository;
-import com.hoa.shopbanhang.application.services.ICartService;
+import com.hoa.shopbanhang.application.services .ICartService;
 import com.hoa.shopbanhang.configs.exceptions.VsException;
 import com.hoa.shopbanhang.domain.entities.Cart;
 import com.hoa.shopbanhang.domain.entities.User;
@@ -31,22 +30,23 @@ public class CartServiceImpl implements ICartService {
   }
 
   @Override
-  public CartDetailOutput getCartById(Long id) {
+  public Cart getCartById(Long id) {
     Optional<Cart> cart = cartRepository.findById(id);
     checkCartExists(cart);
 
-    CartDetailOutput output = new CartDetailOutput(cart.get(), cart.get().getItemDetails());
-    return output;
+//    CartDetailOutput output = new CartDetailOutput(cart.get(), cart.get().getItemDetails());
+    return cart.get();
   }
 
   @Override
-  public CartDetailOutput getCartByIdUser(Long idUser) {
-    Cart cart = cartRepository.findCartByUser(idUser);
+  public Cart getCartByIdUser(Long idUser) {
+    Optional<User> user = userRepository.findById(idUser);
+    UserServiceImpl.checkUserExists(user);
+    Cart cart = user.get().getCart();
     if (cart == null) {
       throw new VsException(MessageConstant.CART_NOT_EXISTS);
     }
-    CartDetailOutput output = new CartDetailOutput(cart, cart.getItemDetails());
-    return output;
+    return cart;
   }
 
   @Override

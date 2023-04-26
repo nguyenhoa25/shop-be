@@ -1,2 +1,0 @@
-# vitweb-api
-Personal project 

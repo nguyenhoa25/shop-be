@@ -4,12 +4,14 @@ import com.github.slugify.Slugify;
 import com.hoa.shopbanhang.adapter.web.v1.transfer.response.RequestResponse;
 import com.hoa.shopbanhang.application.constants.CommonConstant;
 import com.hoa.shopbanhang.application.constants.MessageConstant;
+import com.hoa.shopbanhang.application.inputs.product.AddImagesProductInput;
 import com.hoa.shopbanhang.application.inputs.product.CreateProductInput;
+import com.hoa.shopbanhang.application.inputs.product.RemoveImagesProductInput;
 import com.hoa.shopbanhang.application.inputs.product.UpdateProductInput;
 import com.hoa.shopbanhang.application.inputs.statistic.CreateStatisticInput;
-import com.hoa.shopbanhang.application.outputs.GetListProductOutput;
-import com.hoa.shopbanhang.application.outputs.PagingMeta;
-import com.hoa.shopbanhang.application.outputs.ProductOutput;
+import com.hoa.shopbanhang.application.outputs.common.PagingMeta;
+import com.hoa.shopbanhang.application.outputs.product.GetListProductOutput;
+import com.hoa.shopbanhang.application.outputs.product.ProductOutput;
 import com.hoa.shopbanhang.application.repositories.ICategoryRepository;
 import com.hoa.shopbanhang.application.repositories.IProductRepository;
 import com.hoa.shopbanhang.application.repositories.IRateRepository;
@@ -107,13 +109,13 @@ public class ProductServiceImpl implements IProductService {
   }
 
   @Override
-  public GetListProductOutput findProducts(String name, Integer page, Integer size) {
-    List<Product> products = productRepository.findByName(name, null);
+  public GetListProductOutput findProducts(String category, String name, Integer page, Integer size) {
+    List<Product> products = productRepository.findByName(category, name, null);
     Integer total = products.size();
     PagingMeta pagingMeta;
 
     if (page != null && size > 0) {
-      products = productRepository.findByName(name, PageRequest.of(page.intValue(), size));
+      products = productRepository.findByName(category, name, PageRequest.of(page.intValue(), size));
       pagingMeta = new PagingMeta(total, page, size);
     } else {
       pagingMeta = new PagingMeta(total, null, null);
@@ -160,8 +162,8 @@ public class ProductServiceImpl implements IProductService {
     newProduct.setSlug(slug);
     newProduct.setCategory(category.get());
     List<String> images = new ArrayList<>();
-    for (MultipartFile multipartFile : createProductInput.getMultipartFiles()) {
-      images.add(CloudinaryUtil.getUrlFromFile(multipartFile));
+    for (MultipartFile image : createProductInput.getImages()) {
+      images.add(CloudinaryUtil.getUrlFromFile(image));
     }
     newProduct.setImages(images);
     return productRepository.save(newProduct);
@@ -177,24 +179,61 @@ public class ProductServiceImpl implements IProductService {
     String slug = slugify.slugify(updateProductInput.getName());
     product.get().setSlug(slug);
 
+    if(updateProductInput.getImages() != null) {
+      List<String> images = new ArrayList<>();
+      for (MultipartFile image : updateProductInput.getImages()) {
+        images.add(CloudinaryUtil.getUrlFromFile(image));
+      }
+      product.get().setImages(images);
+    }
+
     return productRepository.save(product.get());
   }
 
   @Override
-  public void updateStockProduct(Long productId, Integer amount, Boolean isBuy) {
+  public Product addImagesProduct(AddImagesProductInput addImagesProductInput) {
+    Optional<Product> product = productRepository.findById(addImagesProductInput.getId());
+    checkProductExists(product);
+
+    List<String> images = product.get().getImages();
+    for (MultipartFile image : addImagesProductInput.getImages()) {
+      images.add(CloudinaryUtil.getUrlFromFile(image));
+    }
+    product.get().setImages(images);
+    return productRepository.save(product.get());
+  }
+
+  @Override
+  public Product removeImagesProduct(RemoveImagesProductInput removeImagesProductInput) {
+    Optional<Product> product = productRepository.findById(removeImagesProductInput.getId());
+    checkProductExists(product);
+
+    List<String> images = product.get().getImages();
+    for (String image : removeImagesProductInput.getImages()) {
+      if(images.contains(image)) {
+        images.remove(image);
+      }
+    }
+    product.get().setImages(images);
+    return productRepository.save(product.get());
+  }
+
+  @Override
+  public Boolean updateStockProduct(Long productId, Integer amount, Boolean isBuy) {
     Optional<Product> product = productRepository.findById(productId);
     checkProductExists(product);
     if (isBuy) {
       if (product.get().getStock() > amount) {
         product.get().setStock(product.get().getStock() - amount);
       } else {
-        throw new VsException(MessageConstant.PRODUCT_OUT_OF_STOCK);
+        return Boolean.FALSE;
       }
 
     } else {
       product.get().setStock(product.get().getStock() + amount);
     }
     productRepository.save(product.get());
+    return Boolean.TRUE;
   }
 
   @Override

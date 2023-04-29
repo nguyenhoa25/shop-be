@@ -4,6 +4,7 @@ import com.hoa.shopbanhang.adapter.web.base.RestApiV1;
 import com.hoa.shopbanhang.adapter.web.base.VsResponseUtil;
 import com.hoa.shopbanhang.application.constants.UrlConstant;
 import com.hoa.shopbanhang.application.inputs.order.CreateOrderInput;
+import com.hoa.shopbanhang.application.inputs.order.FilterOrderInput;
 import com.hoa.shopbanhang.application.services.IOrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,15 @@ public class OrderController {
   @GetMapping(UrlConstant.Order.LIST)
   public ResponseEntity<?> getAll() {
     return VsResponseUtil.ok(orderService.getAll());
+  }
+
+  @Operation(summary = "Filter Order - ADMIN")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
+  @PostMapping(UrlConstant.Order.SEARCH)
+  public ResponseEntity<?> filterOrders(@RequestBody(required = false) FilterOrderInput input,
+                                        @RequestParam(name = "page", required = false) Integer page,
+                                        @RequestParam(name = "size", required = false) Integer size) {
+    return VsResponseUtil.ok(orderService.filterOrders(input, page, size));
   }
 
   @Operation(summary = "Get Order By Id - ADMIN, USER")

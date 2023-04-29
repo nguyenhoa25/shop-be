@@ -1,4 +1,4 @@
-package com.hoa.shopbanhang.application.outputs;
+package com.hoa.shopbanhang.application.outputs.product;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package com.hoa.shopbanhang.application.outputs;
+package com.hoa.shopbanhang.application.inputs.product;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,12 +9,12 @@ import java.util.List;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class GetListProductOutput {
+@NoArgsConstructor
+public class RemoveImagesProductInput {
 
-  private List<ProductOutput> productOutputs;
+  private Long id;
 
-  private PagingMeta meta;
+  private List<String> images;
 
 }

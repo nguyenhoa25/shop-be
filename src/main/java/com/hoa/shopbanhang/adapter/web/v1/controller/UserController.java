@@ -36,19 +36,19 @@ public class UserController {
   @Operation(summary = "Update User - ADMIN, USER")
   @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
   @PatchMapping(UrlConstant.User.UPDATE)
-  public ResponseEntity<?> updateUser(@RequestBody UpdateUserInput updateUserInput) {
+  public ResponseEntity<?> updateUser(@RequestBody(required = false) UpdateUserInput updateUserInput) {
     return VsResponseUtil.ok(userService.updateUser(updateUserInput));
   }
 
   @Operation(summary = "Change Avatar User - ADMIN, USER")
   @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-  @PostMapping(UrlConstant.User.CHANGE_AVATAR)
+  @PatchMapping(UrlConstant.User.CHANGE_AVATAR)
   public ResponseEntity<?> changeAvatarUser(@ModelAttribute ChangeAvatarInput changeAvatarInput) {
     return VsResponseUtil.ok(userService.changeAvatar(changeAvatarInput));
   }
 
-  @Operation(summary = "Delete User - ADMIN, USER")
-  @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+  @Operation(summary = "Delete User - ADMIN")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
   @DeleteMapping(UrlConstant.User.DELETE)
   public ResponseEntity<?> deleteUser(@PathVariable("id") Long id) {
     return VsResponseUtil.ok(userService.deleteById(id));

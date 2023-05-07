@@ -25,6 +25,11 @@ public class TokenController {
     return VsResponseUtil.ok(tokenService.verify(token));
   }
 
+//  @PostMapping(UrlConstant.Token.VERIFY_FORGOT_PASSWORD)
+//  public ResponseEntity<?> verifyForgotPassword(@Valid @ModelAttribute VerifyForgotPasswordRequest request) {
+//    return VsResponseUtil.ok(tokenService.verifyForgotPassword(request));
+//  }
+
   @PostMapping(UrlConstant.Token.RESEND)
   public ResponseEntity<?> resendToken(@PathVariable("token") String token, HttpServletRequest request) {
     return VsResponseUtil.ok(tokenService.resendToken(token, applicationUrl(request)));

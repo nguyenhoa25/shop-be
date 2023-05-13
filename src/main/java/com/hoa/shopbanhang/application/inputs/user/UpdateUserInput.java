@@ -13,9 +13,7 @@ public class UpdateUserInput {
 
   private Long id;
 
-  private String name;
-
-  private String email;
+  private String fullName;
 
   private String birthday;
 
@@ -23,12 +21,6 @@ public class UpdateUserInput {
 
   private String address;
 
-  private String school;
-
   private String gender;
-
-  private String grade;
-
-  private String faculty;
 
 }

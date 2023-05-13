@@ -2,6 +2,8 @@ package com.hoa.shopbanhang.application.services.impl;
 
 import com.hoa.shopbanhang.adapter.web.v1.transfer.response.RequestResponse;
 import com.hoa.shopbanhang.application.constants.CommonConstant;
+import com.hoa.shopbanhang.application.constants.DevMessageConstant;
+import com.hoa.shopbanhang.application.constants.UserMessageConstant;
 import com.hoa.shopbanhang.application.repositories.ITokenRepository;
 import com.hoa.shopbanhang.application.repositories.IUserRepository;
 import com.hoa.shopbanhang.application.services.ITokenService;
@@ -35,14 +37,6 @@ public class TokenServiceImpl implements ITokenService {
   }
 
   @Override
-  public Token getTokenById(Long id) {
-    Optional<Token> oldToken = tokenRepository.findById(id);
-    checkTokenExists(oldToken);
-
-    return oldToken.get();
-  }
-
-  @Override
   public RequestResponse verify(String token) {
     try {
       Token oldToken = validateToken(token);
@@ -72,19 +66,13 @@ public class TokenServiceImpl implements ITokenService {
     String url = applicationUrl
         + "/api/v1/tokens/verify/"
         + newToken;
-    SendMailUtil.sendMailSimple(user.getEmail(), url, "Verify sign up Vit Web");
+    SendMailUtil.sendMailSimple(user.getEmail(), url, "Verify sign up Shop Cua Hoa");
     return new RequestResponse(CommonConstant.TRUE, "");
   }
 
   @Override
   public void createTokenVerify(String token, User user) {
     Token newToken = new Token(token, user);
-    tokenRepository.save(newToken);
-  }
-
-  @Override
-  public void createTokenVerify(String token, User user, int expirationTime) {
-    Token newToken = new Token(token, user, expirationTime);
     tokenRepository.save(newToken);
   }
 
@@ -97,13 +85,13 @@ public class TokenServiceImpl implements ITokenService {
       tokenRepository.delete(oldToken.get());
       throw new VsException("Token expired !");
     }
-
     return oldToken.get();
   }
 
   private void checkTokenExists(Optional<Token> Token) {
     if(Token.isEmpty()) {
-      throw new VsException("Token not found");
+      throw new VsException(UserMessageConstant.ERR_EXCEPTION_GENERAL,
+          DevMessageConstant.Common.NOT_FOUND_OBJECT_BY_ID);
     }
   }
 }

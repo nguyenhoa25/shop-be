@@ -1,6 +1,7 @@
 package com.hoa.shopbanhang.application.services.impl;
 
 import com.github.slugify.Slugify;
+import com.hoa.shopbanhang.adapter.web.v1.transfer.response.ProductOutput;
 import com.hoa.shopbanhang.adapter.web.v1.transfer.response.RequestResponse;
 import com.hoa.shopbanhang.application.constants.CommonConstant;
 import com.hoa.shopbanhang.application.constants.MessageConstant;
@@ -11,7 +12,6 @@ import com.hoa.shopbanhang.application.inputs.product.UpdateProductInput;
 import com.hoa.shopbanhang.application.inputs.statistic.CreateStatisticInput;
 import com.hoa.shopbanhang.application.outputs.common.PagingMeta;
 import com.hoa.shopbanhang.application.outputs.product.GetListProductOutput;
-import com.hoa.shopbanhang.application.outputs.product.ProductOutput;
 import com.hoa.shopbanhang.application.repositories.ICategoryRepository;
 import com.hoa.shopbanhang.application.repositories.IProductRepository;
 import com.hoa.shopbanhang.application.repositories.IRateRepository;
@@ -95,13 +95,12 @@ public class ProductServiceImpl implements IProductService {
       Optional<User> userCurrent = userRepository.findByEmail(emailUserCurrent);
       UserServiceImpl.checkUserExists(userCurrent);
       CreateStatisticInput createStatisticInput;
+      Integer ageOfUser = null;
       if (userCurrent.get().getBirthday() != null) {
-        Integer ageOfUser =
+        ageOfUser =
             Period.between(LocalDate.parse(userCurrent.get().getBirthday()), LocalDate.now()).getYears();
-        createStatisticInput = new CreateStatisticInput(ageOfUser, userCurrent.get(), product.get());
-      } else {
-        createStatisticInput = new CreateStatisticInput(null, userCurrent.get(), product.get());
       }
+      createStatisticInput = new CreateStatisticInput(ageOfUser, userCurrent.get(), product.get());
       statisticService.createStatistic(createStatisticInput);
     }
 

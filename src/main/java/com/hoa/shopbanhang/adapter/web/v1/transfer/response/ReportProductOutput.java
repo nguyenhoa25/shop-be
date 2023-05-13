@@ -1,4 +1,4 @@
-package com.hoa.shopbanhang.application.outputs;
+package com.hoa.shopbanhang.adapter.web.v1.transfer.response;
 
 import com.hoa.shopbanhang.domain.entities.Product;
 

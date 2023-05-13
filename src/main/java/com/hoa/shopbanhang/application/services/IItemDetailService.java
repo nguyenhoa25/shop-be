@@ -1,7 +1,7 @@
 package com.hoa.shopbanhang.application.services;
 
+import com.hoa.shopbanhang.adapter.web.v1.transfer.response.ReportProductOutput;
 import com.hoa.shopbanhang.application.inputs.product.ReportProductInput;
-import com.hoa.shopbanhang.application.outputs.ReportProductOutput;
 import com.hoa.shopbanhang.domain.entities.ItemDetail;
 
 import java.util.List;

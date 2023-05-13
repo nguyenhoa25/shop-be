@@ -7,4 +7,5 @@ public class EmailConstant {
   public static String SUBJECT_DELIVERED = "DELIVERY SUCCESSFUL";
   public static String SENT_SUCCESSFULLY = "SENT SUCCESSFULL";
   public static String SEND_FAILED = "SEND FALSE";
+  public static String SUBJECT_VERIFY = "VERIFY YOUR ACCOUNT OF SHOP CUA HOA";
 }

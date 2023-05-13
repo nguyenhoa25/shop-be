@@ -10,13 +10,11 @@ public interface ITokenService {
 
   List<Token> getAll();
 
-  Token getTokenById(Long id);
-
   RequestResponse verify(String token);
 
   RequestResponse resendToken(String oldToken, String applicationUrl);
 
   void createTokenVerify(String token, User user);
 
-  void createTokenVerify(String token, User user, int expirationTime);
+//  RequestResponse verifyForgotPassword(VerifyForgotPasswordRequest request);
 }

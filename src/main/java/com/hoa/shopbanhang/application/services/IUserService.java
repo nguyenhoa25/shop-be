@@ -4,13 +4,14 @@ import com.hoa.shopbanhang.adapter.web.v1.transfer.response.RequestResponse;
 import com.hoa.shopbanhang.application.inputs.user.ChangeAvatarInput;
 import com.hoa.shopbanhang.application.inputs.user.UpdateUserInput;
 import com.hoa.shopbanhang.domain.entities.User;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 public interface IUserService {
 
   List<User> getAll();
+
+  List<User> getAllUserOfCoupon(Long couponId);
 
   User getUserById(Long id);
 

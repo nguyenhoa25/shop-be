@@ -1,8 +1,8 @@
 package com.hoa.shopbanhang.application.services.impl;
 
+import com.hoa.shopbanhang.adapter.web.v1.transfer.response.ReportProductOutput;
 import com.hoa.shopbanhang.application.constants.MessageConstant;
 import com.hoa.shopbanhang.application.inputs.product.ReportProductInput;
-import com.hoa.shopbanhang.application.outputs.ReportProductOutput;
 import com.hoa.shopbanhang.application.repositories.ICartRepository;
 import com.hoa.shopbanhang.application.repositories.IItemDetailRepository;
 import com.hoa.shopbanhang.application.repositories.IProductRepository;

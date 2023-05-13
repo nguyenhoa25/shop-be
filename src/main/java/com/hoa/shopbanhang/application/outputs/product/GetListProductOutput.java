@@ -1,5 +1,6 @@
 package com.hoa.shopbanhang.application.outputs.product;
 
+import com.hoa.shopbanhang.adapter.web.v1.transfer.response.ProductOutput;
 import com.hoa.shopbanhang.application.outputs.common.PagingMeta;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

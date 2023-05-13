@@ -36,8 +36,6 @@ public class User extends AbstractAuditingEntity {
 
   private String avatar;
 
-  private Double coin = 0.0;
-
   @Enumerated(EnumType.STRING)
   private AuthenticationProvider authProvider;
 
@@ -47,17 +45,13 @@ public class User extends AbstractAuditingEntity {
   @JoinColumn(name = "role_id")
   private Role role;
 
-  @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+  @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
   @JsonIgnore
   private Cart cart;
 
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
   @JsonIgnore
   private List<Order> orders;
-
-  @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER, mappedBy = "users")
-  @JsonIgnore
-  private List<Notification> notifications;
 
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
   @JsonIgnore
@@ -66,6 +60,13 @@ public class User extends AbstractAuditingEntity {
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
   @JsonIgnore
   private List<Statistic> statistics;
+
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+  @JsonIgnore
+  private List<UserCoupon> userCoupons;
+
+  @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
+  private Token token;
 
   public User(String email, String password, String fullName,
               Role role, AuthenticationProvider authProvider, Boolean status) {

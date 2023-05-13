@@ -1,12 +1,12 @@
 package com.hoa.shopbanhang.application.services;
 
+import com.hoa.shopbanhang.adapter.web.v1.transfer.response.ProductOutput;
 import com.hoa.shopbanhang.adapter.web.v1.transfer.response.RequestResponse;
 import com.hoa.shopbanhang.application.inputs.product.AddImagesProductInput;
 import com.hoa.shopbanhang.application.inputs.product.CreateProductInput;
 import com.hoa.shopbanhang.application.inputs.product.RemoveImagesProductInput;
 import com.hoa.shopbanhang.application.inputs.product.UpdateProductInput;
 import com.hoa.shopbanhang.application.outputs.product.GetListProductOutput;
-import com.hoa.shopbanhang.application.outputs.product.ProductOutput;
 import com.hoa.shopbanhang.domain.entities.Product;
 
 public interface IProductService {

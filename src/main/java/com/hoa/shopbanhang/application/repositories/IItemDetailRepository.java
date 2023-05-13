@@ -1,7 +1,7 @@
 package com.hoa.shopbanhang.application.repositories;
 
+import com.hoa.shopbanhang.adapter.web.v1.transfer.response.ReportProductOutput;
 import com.hoa.shopbanhang.application.inputs.product.ReportProductInput;
-import com.hoa.shopbanhang.application.outputs.ReportProductOutput;
 import com.hoa.shopbanhang.domain.entities.Cart;
 import com.hoa.shopbanhang.domain.entities.ItemDetail;
 import com.hoa.shopbanhang.domain.entities.Order;
@@ -33,5 +33,12 @@ public interface IItemDetailRepository extends JpaRepository<ItemDetail, Long> {
       "group by i.product.id " +
       "order by sold DESC")
   List<ReportProductOutput> reportProduct(ReportProductInput reportProductInput);
+
+  @Query("select sum(i.amount * i.price) " +
+      "from ItemDetail i " +
+      "where i.order is not null " +
+      "and (:#{#reportProductInput.timeStart} is null or i.order.orderedDate >= :#{#reportProductInput.timeStart}) " +
+      "and (:#{#reportProductInput.timeEnd} is null or i.order.orderedDate <= :#{#reportProductInput.timeEnd})")
+  Double reportRevenue(ReportProductInput reportProductInput);
 
 }
